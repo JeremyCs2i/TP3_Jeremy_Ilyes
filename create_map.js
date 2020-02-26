@@ -28,7 +28,7 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-d3.json('departments.json').then(function(geojson) {			
+d3.json('departments.json').then(function(geojson) {
         deps.selectAll("path")
             .data(geojson.features)
             .enter()

@@ -18,7 +18,7 @@ const deps = svg.append("g");
 
 d3.json('departments.json').then(function(geojson) {
     deps.selectAll("path")
-        .data(geojson)
+        .data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path);

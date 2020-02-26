@@ -18,7 +18,7 @@ const deps = svg.append("g");
 
 d3.json('meteo.json').then(function(geojson) {
     deps.selectAll("path")
-        .data(geojson.features)
+        .data(geojson)
         .enter()
         .append("path")
         .attr("d", path);

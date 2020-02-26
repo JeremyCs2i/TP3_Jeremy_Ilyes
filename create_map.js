@@ -16,7 +16,7 @@ const svg = d3.select('#map').append("svg")
 
 const deps = svg.append("g");
 
-d3.json('meteo.json').then(function(geojson) {
+d3.json('https://www.datavis.fr/d3js/map-firststep/departments.json').then(function(geojson) {
     deps.selectAll("path")
         .data(geojson)
         .enter()

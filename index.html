@@ -9,7 +9,7 @@
   <body>
   	<div class="d-flex justify-content-center pad">
   			<form>
-  				<fieldset>
+  				<fieldset id="colors">
   					<div>
   						<label for="male">Couleurs</label>
   						<select>
@@ -36,11 +36,28 @@
   				</fieldset>
   			</form>
   		</div>
-
       <div class="d-flex justify-content-center" id="map"></div>
+
+      <div class="d-flex justify-content-center">
+        <label for="business">Date :   </label>
+        <input type="date" id="date" name="trip-start"
+         value="1999-02-01"
+         min="1999-02-01" max="1999-02-28"
+         onchange="populate(this.id,'stations')">
+      </div>
+      <div class="d-flex justify-content-center">
+        <label for="business">Sations :   </label>
+           <select  id="stations" onchange="update()">
+
+           </select >
+       </div>
+
       <svg class="d-flex justify-content-center" id="chart"></svg>
+      <svg width="500" height="500"></svg>
+
 
   </body>
        <script src="js/create_map.js"></script>
-       <script src="js/graph0.js"></script>
+       <script src="js/graphTemp.js"></script>
+       <script src="js/popStations.js"></script>
 </html>

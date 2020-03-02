@@ -207,7 +207,7 @@ function update2(){
     xAxis.call(d3.axisBottom(x))
 
 
-    y.domain([0, 35]);
+    y.domain([-20, 35]);
 
 
 

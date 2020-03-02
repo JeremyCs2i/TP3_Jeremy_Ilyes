@@ -85,7 +85,9 @@ function drawCircles(data) {
                        .style("top", "-500px");
                 })
           .on("click",function(d){
-            update(d.name);
+            var lab2 = document.getElementById("name_sta");
+              lab2.textContent = d.name;
+            update();
 
           });
 }

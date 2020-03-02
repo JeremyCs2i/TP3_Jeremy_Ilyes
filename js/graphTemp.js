@@ -32,9 +32,9 @@ function update(name){
   // var val = document.getElementById("stations").value;
   var lab = document.getElementById("monLab");
   var labd = day + 1;
-  lab.textContent = "température de " + name + " le " + labd +" février";
-  var lab2 = document.getElementById("name_sta");
-    lab2.textContent = name;
+  var lab2 = document.getElementById("name_sta").textContent;
+  lab.textContent = "température de " + lab2 + " le " + labd +" février";
+
   Promise.all(dataset).then(function(data) {
 
     const sta = data[0][day]["station"];

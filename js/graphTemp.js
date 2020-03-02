@@ -4,7 +4,7 @@ var greyColor = "#898989";
 var barColor = d3.interpolateInferno(0.4);
 var highlightColor = d3.interpolateInferno(0.3);
 
-var svg2 = d3.select("body").append("svg")
+var svg2 = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
 .append("g")
@@ -153,13 +153,141 @@ function update(){
 
           aled.exit()
             .remove();
-
-
-
-
     });
 }
 
 
-
 update();
+
+
+
+
+function update2(){
+  var dataset = [];
+  dataset.push(d3.json("ressources/meteo.json"));
+
+  var input = document.getElementById("date").value;
+  var dateEntered = new Date(input);
+  var day = dateEntered.getDate();
+  day = day-1;
+  var val = document.getElementById("stations").value;
+
+  Promise.all(dataset).then(function(data) {
+
+    const sta = data[0][day]["station"];
+
+    var index = sta.findIndex(function(item, i){
+      return item.n === val
+    });
+
+    if (index == -1) {
+      index = 0
+    }
+
+    const hours = data[0][day]["station"][index].hours;
+
+    x.domain(hours.map( d => { return d.h; }))
+    xAxis.call(d3.axisBottom(x))
+
+
+    y.domain([0, 35]);
+
+
+
+    svg2.append("g")
+        .attr("class","y axis")
+        .call(yAxis);
+
+    svg2.selectAll(".bar")
+        .data(hours)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .style("display", d => { return d.p === null ? "none" : null; })
+        .style("fill",  d => {
+            return d.p === d3.max(hours,  d => { return d.p; })
+            ? highlightColor : barColor
+            })
+        .attr("x",  d => { return x(d.h); })
+        .attr("width", x.bandwidth())
+            .attr("y",  d => { return height; })
+            .attr("height", 0)
+                .transition()
+                .duration(750)
+                .delay(function (d, i) {
+                    return i * 150;
+                })
+        .attr("y",  d => { return y(d.p); })
+        .attr("height",  d => { return height - y(d.p); });
+
+    svg2.selectAll(".label")
+        .data(hours)
+        .enter()
+        .append("text")
+        .attr("class", "label")
+        .style("display",  d => { return d.p === null ? "none" : null; })
+        .attr("x", ( d => { return x(d.h) + (x.bandwidth() / 2) -8 ; }))
+            .style("fill",  d => {
+                return d.p === d3.max(hours,  d => { return d.p; })
+                ? highlightColor : greyColor
+                })
+        .attr("y",  d => { return height; })
+            .attr("height", 0)
+                .transition()
+                .duration(750)
+                .delay((d, i) => { return i * 150; })
+        .text( d => { return (d.p); })
+        .attr("y",  d => { return y(d.p) + .1; })
+        .attr("dy", "-.7em");
+
+        var u = svg2.selectAll(".bar")
+            .data(hours)
+
+        u
+            .attr("class", "bar")
+            .style("display", d => { return d.p === null ? "none" : null; })
+            .style("fill",  d => {
+                return d.p === d3.max(hours,  d => { return d.p; })
+                ? highlightColor : barColor
+                })
+            .attr("x",  d => { return x(d.h); })
+            .attr("width", x.bandwidth())
+                .attr("y",  d => { return height; })
+                .attr("height", 0)
+                    .transition()
+                    .duration(750)
+                    .delay(function (d, i) {
+                        return i * 150;
+                    })
+            .attr("y",  d => { return y(d.p); })
+            .attr("height",  d => { return height - y(d.p); });
+
+            u
+    .exit()
+    .remove();
+
+
+    var aled = svg2.selectAll(".label")
+        .data(hours)
+
+
+      aled
+            .attr("class", "label")
+            .style("display",  d => { return d.p === null ? "none" : null; })
+            .attr("x", ( d => { return x(d.h) + (x.bandwidth() / 2) -8 ; }))
+                .style("fill",  d => {
+                    return d.p === d3.max(hours,  d => { return d.p; })
+                    ? highlightColor : greyColor
+                    })
+            .attr("y",  d => { return height; })
+                .attr("height", 0)
+                    .transition()
+                    .duration(750)
+                    .delay((d, i) => { return i * 150; })
+            .text( d => { return (d.p); })
+            .attr("y",  d => { return y(d.p) + .1; })
+            .attr("dy", "-.7em");
+
+          aled.exit()
+            .remove();
+    });
+}

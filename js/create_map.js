@@ -20,12 +20,22 @@ const deps = svg.append("g");
 
 function transform(data){
 
-var station = data[0]["station"];
+  var dateControl = document.querySelector('input[type="date"]');
+
+  var dateEntered = new Date(dateControl.value);
+
+  var day = dateEntered.getDate();
+  day = day-1;
+
+
+var station = data[day]["station"];
 var result = station.map(function(elt){
   return {lat : elt.lat,
           lng : elt.lng,
-          name : elt.n}
+          name : elt.n,
+          temp : elt.t / 100}
 });
+
 return result;
 };
 
@@ -56,7 +66,8 @@ function drawCircles(data) {
              div.transition()
                  .duration(200)
                  .style("opacity", .9);
-             div.html("<b>ville </b>" + e.name + "<br>")
+             div.html("<b>ville </b>" + e.name + "<br>" +
+           "<b>Température </b>" + e.temp + "<br>")
                  .style("left", (d3.event.pageX + 30) + "px")
                  .style("top", (d3.event.pageY - 30) + "px");
            })
@@ -68,7 +79,7 @@ function drawCircles(data) {
                 });
 }
 
-
+function drawMap(){
 var promises = [];
 promises.push(d3.json('ressources/departments.json'));
 promises.push(d3.csv("ressources/population.csv"));
@@ -180,3 +191,6 @@ d3.select("select").on("change", function() {
     d3.selectAll("svg").attr("class", this.value);
 });
 });
+}
+
+drawMap();

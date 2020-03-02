@@ -1,42 +1,64 @@
 var margin = {top: 40, right: 30, bottom: 30, left: 50};
+var width2 = 500, height2 = 350;
 
 var greyColor = "#898989";
 var barColor = d3.interpolateInferno(0.4);
 var highlightColor = d3.interpolateInferno(0.3);
 
 var svg2 = d3.select("#chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width2 + margin.left + margin.right)
+    .attr("height", height2 + margin.top + margin.bottom)
 .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var x = d3.scaleBand()
-        .range([0, width])
+        .range([0, width2])
             .padding(0.4);
     var xAxis = svg2.append("g")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0," + height2 + ")")
 
     var y = d3.scaleLinear()
-        .range([height, 0]);
+        .domain([-20,35])
+        .range([height2, 0]);
     var yAxis = d3.axisLeft(y).tickSize([]).tickPadding(10);
 
-
+<<<<<<< HEAD
 function update(){
+=======
+
+function update(name){
+>>>>>>> 6fd00d6057cacb7281509b8b89f177c6c14a5b4c
   var dataset = [];
   dataset.push(d3.json("ressources/meteo.json"));
-
+  //
   var input = document.getElementById("date").value;
   var dateEntered = new Date(input);
   var day = dateEntered.getDate();
   day = day-1;
-  var val = document.getElementById("stations").value;
+  // var val = document.getElementById("stations").value;
+  var lab = document.getElementById("monLab");
+  var labd = day + 1;
+  var lab2 = document.getElementById("name_sta").textContent;
+<<<<<<< HEAD
+=======
+  lab.textContent = "température de " + lab2 + " le " + labd +" février";
+>>>>>>> 6fd00d6057cacb7281509b8b89f177c6c14a5b4c
 
+  if (lab2 == "") {
+    lab2="NICE";
+  }
+
+  lab.textContent = "Tmpérature en C° à " + lab2 + " le " + labd +" février";
   Promise.all(dataset).then(function(data) {
 
     const sta = data[0][day]["station"];
 
     var index = sta.findIndex(function(item, i){
-      return item.n === val
+<<<<<<< HEAD
+      return item.n === lab2
+=======
+      return item.n === name
+>>>>>>> 6fd00d6057cacb7281509b8b89f177c6c14a5b4c
     });
 
     if (index == -1) {
@@ -54,8 +76,8 @@ function update(){
     xAxis.call(d3.axisBottom(x))
 
 
-    y.domain([0, 35]);
 
+    y.domain([-20,35]);
 
 
     svg2.append("g")
@@ -73,7 +95,7 @@ function update(){
             })
         .attr("x",  d => { return x(d.h); })
         .attr("width", x.bandwidth())
-            .attr("y",  d => { return height; })
+            .attr("y",  d => { return height2; })
             .attr("height", 0)
                 .transition()
                 .duration(750)
@@ -81,7 +103,8 @@ function update(){
                     return i * 150;
                 })
         .attr("y",  d => { return y(d.t); })
-        .attr("height",  d => { return height - y(d.t); });
+        .attr("height",  d => { return height2 - y(d.t); })
+
 
     svg2.selectAll(".label")
         .data(hours)
@@ -94,7 +117,7 @@ function update(){
                 return d.t === d3.max(hours,  d => { return d.t; })
                 ? highlightColor : greyColor
                 })
-        .attr("y",  d => { return height; })
+        .attr("y",  d => { return height2; })
             .attr("height", 0)
                 .transition()
                 .duration(750)
@@ -115,7 +138,7 @@ function update(){
                 })
             .attr("x",  d => { return x(d.h); })
             .attr("width", x.bandwidth())
-                .attr("y",  d => { return height; })
+                .attr("y",  d => { return height2; })
                 .attr("height", 0)
                     .transition()
                     .duration(750)
@@ -123,7 +146,7 @@ function update(){
                         return i * 150;
                     })
             .attr("y",  d => { return y(d.t); })
-            .attr("height",  d => { return height - y(d.t); });
+            .attr("height",  d => { return height2 - y(d.t); });
 
             u
     .exit()
@@ -142,7 +165,7 @@ function update(){
                     return d.t === d3.max(hours,  d => { return d.t; })
                     ? highlightColor : greyColor
                     })
-            .attr("y",  d => { return height; })
+            .attr("y",  d => { return height2; })
                 .attr("height", 0)
                     .transition()
                     .duration(750)
@@ -163,6 +186,7 @@ update();
 
 
 function update2(){
+
   var dataset = [];
   dataset.push(d3.json("ressources/meteo.json"));
 
@@ -170,14 +194,24 @@ function update2(){
   var dateEntered = new Date(input);
   var day = dateEntered.getDate();
   day = day-1;
-  var val = document.getElementById("stations").value;
+  labd = day +1;
+  // var val = document.getElementById("stations").value;
+    var lab = document.getElementById("name_sta").textContent;
+    var lab2 = document.getElementById("monLab");
+
+<<<<<<< HEAD
+    lab2.textContent = "Pluviométrie en mm à " + lab + " le " + labd +" février";
+=======
+    lab2.textContent = "pluviométrie de " + lab + " le " + labd +" février";
+>>>>>>> 6fd00d6057cacb7281509b8b89f177c6c14a5b4c
+
 
   Promise.all(dataset).then(function(data) {
 
     const sta = data[0][day]["station"];
 
     var index = sta.findIndex(function(item, i){
-      return item.n === val
+      return item.n === lab
     });
 
     if (index == -1) {
@@ -209,7 +243,7 @@ function update2(){
             })
         .attr("x",  d => { return x(d.h); })
         .attr("width", x.bandwidth())
-            .attr("y",  d => { return height; })
+            .attr("y",  d => { return height2; })
             .attr("height", 0)
                 .transition()
                 .duration(750)
@@ -217,7 +251,7 @@ function update2(){
                     return i * 150;
                 })
         .attr("y",  d => { return y(d.p); })
-        .attr("height",  d => { return height - y(d.p); });
+        .attr("height",  d => { return height2 - y(d.p); });
 
     svg2.selectAll(".label")
         .data(hours)
@@ -230,7 +264,7 @@ function update2(){
                 return d.p === d3.max(hours,  d => { return d.p; })
                 ? highlightColor : greyColor
                 })
-        .attr("y",  d => { return height; })
+        .attr("y",  d => { return height2; })
             .attr("height", 0)
                 .transition()
                 .duration(750)
@@ -251,7 +285,7 @@ function update2(){
                 })
             .attr("x",  d => { return x(d.h); })
             .attr("width", x.bandwidth())
-                .attr("y",  d => { return height; })
+                .attr("y",  d => { return height2; })
                 .attr("height", 0)
                     .transition()
                     .duration(750)
@@ -259,7 +293,7 @@ function update2(){
                         return i * 150;
                     })
             .attr("y",  d => { return y(d.p); })
-            .attr("height",  d => { return height - y(d.p); });
+            .attr("height",  d => { return height2 - y(d.p); });
 
             u
     .exit()
@@ -278,7 +312,7 @@ function update2(){
                     return d.p === d3.max(hours,  d => { return d.p; })
                     ? highlightColor : greyColor
                     })
-            .attr("y",  d => { return height; })
+            .attr("y",  d => { return height2; })
                 .attr("height", 0)
                     .transition()
                     .duration(750)

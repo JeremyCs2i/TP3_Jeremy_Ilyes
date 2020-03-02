@@ -41,6 +41,13 @@ return result;
 
 function drawCircles(data) {
 
+  var dateControl = document.querySelector('input[type="date"]');
+
+  var dateEntered = new Date(dateControl.value);
+
+  var day = dateEntered.getDate();
+  day = day-1;
+
   var div = d3.select("body").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
@@ -76,7 +83,11 @@ function drawCircles(data) {
                    div.html("")
                        .style("left", "-500px")
                        .style("top", "-500px");
-                });
+                })
+          .on("click",function(d){
+            update(d.name);
+
+          });
 }
 
 function drawMap(){

@@ -43,7 +43,7 @@
         <input type="date" id="date" name="trip-start"
          value="1999-02-01"
          min="1999-02-01" max="1999-02-28"
-         onchange="populate(this.id,'stations');update(); drawMap()">
+         onchange="populate(this.id,'stations'); drawMap()">
       </div>
       <div class="d-flex justify-content-center">
         <label for="business">Sations :   </label>
@@ -51,11 +51,17 @@
 
            </select >
        </div>
-
+ <label type="label" id = "name_sta" hidden="true"></label>
        <div class="d-flex justify-content-around">
-         <button type="button" class="btn btn-danger" onclick="update()">Température</button>
-         <button type="button" class="btn btn-primary" onclick="update2()">Pluviométrie</button>
+         <!-- <button type="button" class="btn btn-danger" onclick="update()">Température</button> -->
+                  <button type="button" class="btn btn-primary" onclick="update2()">Pluviométrie</button>
+
+
+
        </div>
+          <div class="d-flex justify-content-around">
+        <label type="label" id = "monLab"></label>
+      </div>
       <div class="d-flex justify-content-around">
             <div id="chart"></div>
       </div>

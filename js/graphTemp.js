@@ -21,22 +21,26 @@ var svg2 = d3.select("#chart").append("svg")
     var yAxis = d3.axisLeft(y).tickSize([]).tickPadding(10);
 
 
-function update(){
+function update(name){
   var dataset = [];
   dataset.push(d3.json("ressources/meteo.json"));
-
+  //
   var input = document.getElementById("date").value;
   var dateEntered = new Date(input);
   var day = dateEntered.getDate();
   day = day-1;
-  var val = document.getElementById("stations").value;
-
+  // var val = document.getElementById("stations").value;
+  var lab = document.getElementById("monLab");
+  var labd = day + 1;
+  lab.textContent = "température de " + name + " le " + labd +" février";
+  var lab2 = document.getElementById("name_sta");
+    lab2.textContent = name;
   Promise.all(dataset).then(function(data) {
 
     const sta = data[0][day]["station"];
 
     var index = sta.findIndex(function(item, i){
-      return item.n === val
+      return item.n === name
     });
 
     if (index == -1) {
@@ -163,6 +167,7 @@ update();
 
 
 function update2(){
+
   var dataset = [];
   dataset.push(d3.json("ressources/meteo.json"));
 
@@ -170,14 +175,20 @@ function update2(){
   var dateEntered = new Date(input);
   var day = dateEntered.getDate();
   day = day-1;
-  var val = document.getElementById("stations").value;
+  labd = day +1;
+  // var val = document.getElementById("stations").value;
+    var lab = document.getElementById("name_sta").textContent;
+    var lab2 = document.getElementById("monLab");
+
+    lab2.textContent = "pluviométrie de " + lab + " le " + labd +" février";
+
 
   Promise.all(dataset).then(function(data) {
 
     const sta = data[0][day]["station"];
 
     var index = sta.findIndex(function(item, i){
-      return item.n === val
+      return item.n === lab
     });
 
     if (index == -1) {
